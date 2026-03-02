@@ -1,8 +1,15 @@
+require('dotenv').config();
 const express = require('express');
 const identifyRoute = require('./routes/identify');
 
 const app = express();
 app.use(express.json());
+
+// Request logging middleware
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl} - Body:`, JSON.stringify(req.body));
+  next();
+});
 
 // Main Endpoint
 app.use('/identify', identifyRoute);
