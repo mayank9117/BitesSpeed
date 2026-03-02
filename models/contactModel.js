@@ -88,11 +88,22 @@ const insertSecondaryContact = async (email, phoneNumber, linkedId) => {
     }
 };
 
+const checkDatabaseConnection = async () => {
+    try {
+        await pool.execute('SELECT 1');
+        return true;
+    } catch (error) {
+        console.error(`[DB ERROR] Health check failed:`, error);
+        return false;
+    }
+};
+
 module.exports = {
     findMatchingContacts,
     insertPrimaryContact,
     findClusterContactsByPrimaryIds,
     updateContactPrecedenceAndLinkedId,
     updateLinkedIdForSecondaries,
-    insertSecondaryContact
+    insertSecondaryContact,
+    checkDatabaseConnection
 };
