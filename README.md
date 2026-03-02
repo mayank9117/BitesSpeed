@@ -49,7 +49,23 @@ CREATE TABLE IF NOT EXISTS Contact (
 
 ---
 
-## 🔥 API Endpoint
+## 🔥 API Endpoints
+
+### 1️⃣ `GET /health`
+
+A deep health check endpoint that verifies whether the server is up and the database connection pool is alive and accepting queries.
+
+#### Response Format (200 OK)
+```json
+{
+  "status": "ok",
+  "database": "connected"
+}
+```
+
+---
+
+### 2️⃣ `POST /identify`
 
 ### `POST /identify`
 
@@ -133,46 +149,44 @@ npm install
 
 ---
 
-## 2️⃣ Setup MySQL
+## 2️⃣ Setup Environment Variables
 
-Make sure MySQL server is running.
+Create a `.env` file in the root directory and add your database credentials. This project uses `dotenv` to manage configurations securely.
 
-Login to MySQL:
+```env
+DB_HOST=your_database_host
+DB_USER=your_database_user
+DB_PASSWORD=your_database_password
+DB_NAME=bitespeed
+DB_PORT=3306
+PORT=3000
+```
+
+---
+
+## 3️⃣ Setup MySQL
+
+If you are using a local MySQL server, log in to MySQL:
 
 ```bash
 mysql -u root -p
 ```
 
-Then run:
+Then run the provided SQL script to create the schema:
 
 ```sql
-SOURCE C:/Users/your-username/path-to-project/db.sql;
+SOURCE C:/path-to-project/db.sql;
 ```
+
+*(Note: If using Aiven or another Cloud MySQL provider, simply execute `db.sql` contents via your database UI or terminal.)*
 
 ---
 
-## 3️⃣ Start Server
+## 4️⃣ Start Server
 
-If password is set:
-
-### Windows PowerShell
-```powershell
-$env:DB_PASSWORD="your_password"
-npm start
-```
-
-### CMD
-```cmd
-set DB_PASSWORD=your_password
-npm start
-```
-
-If no password:
 ```bash
 npm start
 ```
-
----
 
 Server will run on:
 
@@ -183,6 +197,8 @@ http://localhost:3000
 ---
 
 # 🧪 Testing Using Postman
+
+> **Tip**: A pre-configured Postman collection is included in the repository as `bitespeed.postman_collection.json`. You can import this directly into Postman to instantly test all the API endpoints and edge cases.
 
 ### Method: POST  
 ### URL:
@@ -225,8 +241,9 @@ Backend Developer | Node.js | MySQL | System Design Enthusiast
 
 This project demonstrates:
 
+- Modular Architecture (Controllers, Models, Routes)
 - Relational database design
 - Primary-secondary record linking
 - Identity reconciliation logic
-- Backend API design
-- Real-world data merging strategy
+- Robust backend API design with Request Logging
+- Deep health checking strategies
